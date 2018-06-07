@@ -7,11 +7,11 @@ import (
 	"strings"
 	"strconv"
 	"github.com/kortschak/ct"
-	"github.com/rossus/quadra/board"
-	"github.com/rossus/quadra/players"
+	"github.com/rossus/quadria/board"
+	"github.com/rossus/quadria/players"
 	"os/exec"
 	"runtime"
-	"github.com/rossus/quadra/gameplay"
+	"github.com/rossus/quadria/gameplay"
 )
 
 //TODO: Try to use github.com/buger/goterm for fix
@@ -66,7 +66,7 @@ func drawBoard() {
 }
 
 func CHRun() {
-	fmt.Println("Welcome to the Quadra console hotseat game! There are two players here: blue (1) and red (2).")
+	fmt.Println("Welcome to the Quadria console hotseat game! There are two players here: blue (1) and red (2).")
 	fmt.Println("It's turn 1 now. It is blue's turn.")
 	for {
 		drawBoard()

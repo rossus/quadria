@@ -1,9 +1,9 @@
 package gameplay
 
 import (
-	"github.com/rossus/quadra/common/types"
-	"github.com/rossus/quadra/board"
-	"github.com/rossus/quadra/players"
+	"github.com/rossus/quadria/common/types"
+	"github.com/rossus/quadria/board"
+	"github.com/rossus/quadria/players"
 )
 
 func addToNext(nextActions []types.NextAction, checked [][3]int) []types.NextAction {

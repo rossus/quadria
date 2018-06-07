@@ -1,8 +1,8 @@
 package board
 
 import (
-	"github.com/rossus/quadra/common/types"
-	"github.com/rossus/quadra/players"
+	"github.com/rossus/quadria/common/types"
+	"github.com/rossus/quadria/players"
 )
 
 var board types.Board

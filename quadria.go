@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/rossus/quadra/players"
-	"github.com/rossus/quadra/board"
-	"github.com/rossus/quadra/gameplay"
-	"github.com/rossus/quadra/controller"
+	"github.com/rossus/quadria/players"
+	"github.com/rossus/quadria/board"
+	"github.com/rossus/quadria/gameplay"
+	"github.com/rossus/quadria/controller"
 )
 
 func main() {

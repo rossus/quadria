@@ -1,7 +1,7 @@
 package players
 
 import (
-	"github.com/rossus/quadra/common/types"
+	"github.com/rossus/quadria/common/types"
 )
 
 var players = []types.Player{{"", "gray"}}
