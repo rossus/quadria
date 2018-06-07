@@ -19,7 +19,10 @@ func addToNext(nextActions []types.NextAction, checked [][3]int) []types.NextAct
 				break
 			}
 		}
-		nextActions = append(nextActions, types.NextAction{checked[i][0], checked[i][1], checked[i][2]})
+
+		if i < len(checked) {
+			nextActions = append(nextActions, types.NextAction{checked[i][0], checked[i][1], checked[i][2]})
+		}
 	}
 	return nextActions
 }
@@ -36,20 +39,20 @@ func checkOverlap(x, y int) [][3]int {
 		if x != 0 {
 			futureActions = append(futureActions, [3]int{x - 1, y, grade})
 		}
-		if x != len(board.GetBoard().Tiles) {
+		if x != len(board.GetBoard().Tiles)-1 {
 			futureActions = append(futureActions, [3]int{x + 1, y, grade})
 		}
 		if y != 0 {
 			futureActions = append(futureActions, [3]int{x, y - 1, grade})
 		}
-		if y != len(board.GetBoard().Tiles) {
+		if y != len(board.GetBoard().Tiles)-1 {
 			futureActions = append(futureActions, [3]int{x, y + 1, grade})
 		}
 	}
 	return futureActions
 }
 
-func goSub(currentActions []types.NextAction) []types.NextAction {
+func goSub(currentActions []types.NextAction) ([]types.NextAction, bool) {
 	nextActions := make([]types.NextAction, 0)
 	for i := 0; i < len(currentActions); i++ {
 		//Action execution
@@ -57,18 +60,27 @@ func goSub(currentActions []types.NextAction) []types.NextAction {
 		board.ChangeTileState(currentActions[i].X, currentActions[i].Y, oldAmount+currentActions[i].Amount)
 		ActionDone(currentActions[i].X, currentActions[i].Y, oldAmount, oldAmount+currentActions[i].Amount)
 
+		//Check if one player owns an entire board, if so end the game
+		if board.CheckDomination() {
+			return nil, true
+		}
+
 		//Plan actions for the next subturn
 		nextActions = addToNext(nextActions, checkOverlap(currentActions[i].X, currentActions[i].Y))
 	}
 
-	return nextActions
+	return nextActions, false
 }
 
-func Go(x, y int) {
+func Go(x, y int) bool {
 	if (board.GetTile(x, y).Player == players.GetActivePlayer() || board.GetTile(x, y).Player == players.GetBlankPlayer()) {
 		nextActions := []types.NextAction{{x, y, 1}}
+		var chk bool
 		for {
-			nextActions = goSub(nextActions)
+			nextActions, chk = goSub(nextActions)
+			if chk {
+				return true
+			}
 			if len(nextActions) == 0 {
 				NextTurn()
 				break
@@ -77,4 +89,5 @@ func Go(x, y int) {
 			NextSubTurn()
 		}
 	}
+	return false
 }

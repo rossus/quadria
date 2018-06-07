@@ -36,6 +36,20 @@ func GetTile(x, y int) types.Tile {
 }
 
 func ChangeTileState(x, y, newVal int) {
-	board.Tiles[y][x].Value=newVal
-	board.Tiles[y][x].Player=players.GetActivePlayer()
+	board.Tiles[y][x].Value = newVal
+	board.Tiles[y][x].Player = players.GetActivePlayer()
+}
+
+func CheckDomination() bool {
+	if *board.Tiles[0][0].Player != *players.GetBlankPlayer() {
+		player:=*board.Tiles[0][0].Player
+		for i:=0; i<len(board.Tiles); i++ {
+			for j:=0; j<len(board.Tiles[i]); j++ {
+				if *board.Tiles[i][j].Player != player {
+					return false
+				}
+			}
+		}
+	}
+	return true
 }

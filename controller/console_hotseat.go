@@ -12,6 +12,8 @@ import (
 	"os/exec"
 	"runtime"
 	"github.com/rossus/quadria/gameplay"
+
+	"github.com/buger/goterm"
 )
 
 //TODO: Try to use github.com/buger/goterm for fix
@@ -89,7 +91,18 @@ func CHRun() {
 				} else if y, err := strconv.Atoi(cmd[2]); err != nil {
 					fmt.Println(err)
 				} else if (x>=0 && x<len(board.GetBoard().Tiles) && y>=0 && y<len(board.GetBoard().Tiles)) {
-					gameplay.Go(x, y)
+					if gameplay.Go(x, y) {
+						goterm.Clear()
+						goterm.MoveCursor(1, 1)
+						goterm.Flush()
+						drawBoard()
+						fmt.Println()
+						fmt.Println("Player ", players.GetActivePlayer().Name, " won!")
+						fmt.Print("Type anything for exit...")
+						var anyKey string
+						fmt.Scanln(&anyKey)
+						break
+					}
 				}
 			}
 		} else if cmd[0] == "help" {
@@ -98,6 +111,8 @@ func CHRun() {
 			fmt.Println("exit							//exit game")
 			fmt.Println("help							//see all commands")
 		}
-		//clear()
+		goterm.Clear()
+		goterm.MoveCursor(1, 1)
+		goterm.Flush()
 	}
 }
