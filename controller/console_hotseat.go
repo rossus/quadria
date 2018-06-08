@@ -84,7 +84,7 @@ func CHRun() {
 				fmt.Println("Bye!")
 				break
 		} else if cmd[0] == "go" {
-			if len(cmd) >= 2 {
+			if len(cmd) >= 3 {
 				x, err := strconv.Atoi(cmd[1])
 				if err != nil {
 					fmt.Println(err)

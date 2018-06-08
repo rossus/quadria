@@ -50,6 +50,7 @@ func CheckDomination() bool {
 				}
 			}
 		}
+		return true
 	}
-	return true
+	return false
 }
