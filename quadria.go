@@ -1,13 +1,15 @@
+// Quadria is a simple console based implementation of a chain reaction style game.
 package main
 
 import (
 	"fmt"
-	"github.com/rossus/quadria/players"
 	"github.com/rossus/quadria/board"
-	"github.com/rossus/quadria/gameplay"
 	"github.com/rossus/quadria/controller"
+	"github.com/rossus/quadria/gameplay"
+	"github.com/rossus/quadria/players"
 )
 
+// main initializes players, creates the board and starts the game loop.
 func main() {
 	var name string
 	fmt.Print("Enter name of the blue player: ")
