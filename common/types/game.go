@@ -1,15 +1,19 @@
+// Package types defines shared structures used throughout Quadria.
 package types
 
+// Game represents a single play session.
+// It stores every turn and subturn that has occurred.
 type Game struct {
 	TurnNum, SubTurnNum int
-	Turns []Turn
+	Turns               []Turn
 }
 
+// Turn stores all subturns performed by one player during a turn.
 type Turn struct {
-	Player *Player
+	Player   *Player
 	SubTurns []SubTurn
 }
 
-//Subturn is a slice of tile changes. Each tile change is an array of 4 parameters:
-//[x coordinate, y coordinate, initial tile value, new tile value]
+// SubTurn is a slice of tile changes. Each tile change is an array of four values:
+// [x coordinate, y coordinate, initial tile value, new tile value].
 type SubTurn [][4]int
