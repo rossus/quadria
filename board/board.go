@@ -2,8 +2,6 @@
 package board
 
 import (
-	"fmt"
-
 	"github.com/rossus/quadria/common/types"
 	"github.com/rossus/quadria/players"
 )
@@ -35,7 +33,6 @@ func InitNewBoard(size int, players *players.Players) *Board {
 		}
 		newBoard.tiles = append(newBoard.tiles, row)
 	}
-	fmt.Printf("NEW BOARD: %v\n", newBoard)
 	return &newBoard
 }
 
@@ -61,9 +58,6 @@ func (b *Board) ChangeTileState(x, y, newVal int) {
 
 // CheckDomination reports whether a single player controls the entire board.
 func (b *Board) CheckDomination() bool {
-	fmt.Printf("BOARD: %v\n", b)
-	fmt.Printf("TILE INFO: %v\n", b.tiles[0][0])
-	fmt.Printf("BLANK PLAYER: %v\n", b.players.GetBlankPlayer())
 	if *b.tiles[0][0].Player != *b.players.GetBlankPlayer() {
 		player := *b.tiles[0][0].Player
 		for i := 0; i < len(b.tiles); i++ {

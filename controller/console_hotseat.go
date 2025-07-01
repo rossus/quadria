@@ -51,7 +51,6 @@ func (chc *ConsoleHotseatController) Run() {
 				} else if y, err := strconv.Atoi(cmd[2]); err != nil {
 					fmt.Println(err)
 				} else if x >= 0 && x < len(chc.session.Board.GetTiles()) && y >= 0 && y < len(chc.session.Board.GetTiles()) {
-					fmt.Printf("ACTIVE PLAYER: %v\n", chc.session.Players.GetActivePlayer())
 					if chc.session.Go(x, y) {
 						goterm.Clear()
 						goterm.MoveCursor(1, 1)
