@@ -1,10 +1,10 @@
-Quadria v0.1
+Quadria v1.0
 ============
 
 ## About
 
 Here I just try to recreate one game I had seen back in 2009 on one of my school's computers. I failed to find it anywhere else and forgot it's name, so I just try to make new one.
-It has only hotseat console mode now.
+It has only hotseat console mode now. UI version is developing here: https://github.com/rossus/codex-gen-quadria-ui
 
 ## Install
 
@@ -34,3 +34,10 @@ go x y
 ```
 If tile's value exceeds number of it's neighbours it will give each neighbour one point and spread it's color on them.
 To win you must spread your color on each tile of the board.
+
+## Versions
+### v0.1
+Initial version
+
+### v1.0
+Added sessions

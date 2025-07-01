@@ -6,42 +6,48 @@ import (
 	"github.com/rossus/quadria/players"
 )
 
-// currentGame stores the state of the running game.
-var currentGame types.Game
+// Game represents a single play session.
+// It stores every turn and subturn that has occurred.
+type Game struct {
+	turnNum, subTurnNum int
+	turns               []types.Turn
+	players             *players.Players
+}
 
-// StartNewGame initializes an empty game and sets the first active player.
-func StartNewGame() {
-	currentGame = types.Game{TurnNum: 1, SubTurnNum: 1, Turns: []types.Turn{}}
-	players.SetFirstPlayer()
-	currentGame.Turns = append(currentGame.Turns, types.Turn{Player: players.GetActivePlayer(), SubTurns: []types.SubTurn{{}}})
+// InitializeNewGame initializes an empty game and sets the first active player.
+func InitializeNewGame(players *players.Players) *Game {
+	currentGame := Game{turnNum: 1, subTurnNum: 1, turns: []types.Turn{}, players: players}
+	currentGame.players.SetFirstPlayer()
+	currentGame.turns = append(currentGame.turns, types.Turn{Player: currentGame.players.GetActivePlayer(), SubTurns: []types.SubTurn{{}}})
+	return &currentGame
 }
 
 // GetTurnNum returns the current turn number.
-func GetTurnNum() int {
-	return currentGame.TurnNum
+func (g *Game) GetTurnNum() int {
+	return g.turnNum
 }
 
 // NextTurn advances the game to the next turn and switches the active player.
-func NextTurn() {
-	currentGame.TurnNum++
-	currentGame.SubTurnNum = 1
-	players.NextPlayer()
-	currentGame.Turns = append(currentGame.Turns, types.Turn{Player: players.GetActivePlayer(), SubTurns: []types.SubTurn{{}}})
+func (g *Game) NextTurn() {
+	g.turnNum++
+	g.subTurnNum = 1
+	g.players.NextPlayer()
+	g.turns = append(g.turns, types.Turn{Player: g.players.GetActivePlayer(), SubTurns: []types.SubTurn{{}}})
 }
 
 // GetSubTurnNum returns the current subturn number.
-func GetSubTurnNum() int {
-	return currentGame.SubTurnNum
+func (g *Game) GetSubTurnNum() int {
+	return g.subTurnNum
 }
 
 // NextSubTurn increments the subturn counter.
-func NextSubTurn() {
-	currentGame.SubTurnNum++
-	currentGame.Turns[GetTurnNum()-1].SubTurns = append(currentGame.Turns[GetTurnNum()-1].SubTurns, types.SubTurn{})
+func (g *Game) NextSubTurn() {
+	g.subTurnNum++
+	g.turns[g.GetTurnNum()-1].SubTurns = append(g.turns[g.GetTurnNum()-1].SubTurns, types.SubTurn{})
 }
 
 // ActionDone records a single tile change that occurred during the current subturn.
-func ActionDone(x, y, oldVal, newVal int) {
+func (g *Game) ActionDone(x, y, oldVal, newVal int) {
 	sub := [4]int{x, y, oldVal, newVal}
-	currentGame.Turns[GetTurnNum()-1].SubTurns[GetSubTurnNum()-1] = append(currentGame.Turns[GetTurnNum()-1].SubTurns[GetSubTurnNum()-1], sub)
+	g.turns[g.GetTurnNum()-1].SubTurns[g.GetSubTurnNum()-1] = append(g.turns[g.GetTurnNum()-1].SubTurns[g.GetSubTurnNum()-1], sub)
 }

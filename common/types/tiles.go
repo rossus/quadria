@@ -10,8 +10,3 @@ type Tile struct {
 	Neighbours int
 	Player     *Player
 }
-
-// Board holds a 2D slice of Tiles that make up the play field.
-type Board struct {
-	Tiles [][]Tile
-}

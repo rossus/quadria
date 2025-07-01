@@ -2,16 +2,24 @@
 package board
 
 import (
+	"fmt"
+
 	"github.com/rossus/quadria/common/types"
 	"github.com/rossus/quadria/players"
 )
 
-// board holds the current state of the game board.
-var board types.Board
+// Board holds a 2D slice of Tiles that make up the play field.
+type Board struct {
+	tiles   [][]types.Tile
+	players *players.Players
+}
 
 // InitNewBoard creates a new square board of the provided size and stores it as the active board.
-func InitNewBoard(size int) {
-	var newBoard types.Board
+func InitNewBoard(size int, players *players.Players) *Board {
+	newBoard := Board{
+		players: players,
+	}
+
 	for i := 0; i < size; i++ {
 		var row []types.Tile
 		for j := 0; j < size; j++ {
@@ -25,34 +33,42 @@ func InitNewBoard(size int) {
 			}
 			row = append(row, tile)
 		}
-		newBoard.Tiles = append(newBoard.Tiles, row)
+		newBoard.tiles = append(newBoard.tiles, row)
 	}
-	board = newBoard
+	fmt.Printf("NEW BOARD: %v\n", newBoard)
+	return &newBoard
 }
 
 // GetBoard returns the current board state.
-func GetBoard() types.Board {
-	return board
+func (b *Board) GetBoard() Board {
+	return *b
+}
+
+func (b *Board) GetTiles() [][]types.Tile {
+	return b.tiles
 }
 
 // GetTile returns the tile located at the given coordinates.
-func GetTile(x, y int) types.Tile {
-	return board.Tiles[y][x]
+func (b *Board) GetTile(x, y int) types.Tile {
+	return b.tiles[y][x]
 }
 
 // ChangeTileState sets the value of a tile and assigns it to the active player.
-func ChangeTileState(x, y, newVal int) {
-	board.Tiles[y][x].Value = newVal
-	board.Tiles[y][x].Player = players.GetActivePlayer()
+func (b *Board) ChangeTileState(x, y, newVal int) {
+	b.tiles[y][x].Value = newVal
+	b.tiles[y][x].Player = b.players.GetActivePlayer()
 }
 
 // CheckDomination reports whether a single player controls the entire board.
-func CheckDomination() bool {
-	if *board.Tiles[0][0].Player != *players.GetBlankPlayer() {
-		player := *board.Tiles[0][0].Player
-		for i := 0; i < len(board.Tiles); i++ {
-			for j := 0; j < len(board.Tiles[i]); j++ {
-				if *board.Tiles[i][j].Player != player {
+func (b *Board) CheckDomination() bool {
+	fmt.Printf("BOARD: %v\n", b)
+	fmt.Printf("TILE INFO: %v\n", b.tiles[0][0])
+	fmt.Printf("BLANK PLAYER: %v\n", b.players.GetBlankPlayer())
+	if *b.tiles[0][0].Player != *b.players.GetBlankPlayer() {
+		player := *b.tiles[0][0].Player
+		for i := 0; i < len(b.tiles); i++ {
+			for j := 0; j < len(b.tiles[i]); j++ {
+				if *b.tiles[i][j].Player != player {
 					return false
 				}
 			}
