@@ -1,3 +1,4 @@
+// Package session ties together the board, players and game state for one match.
 package session
 
 import (
@@ -7,12 +8,14 @@ import (
 	"github.com/rossus/quadria/players"
 )
 
+// Session contains the core objects required to play a game.
 type Session struct {
 	Players *players.Players
 	Board   *board.Board
 	Game    *gameplay.Game
 }
 
+// InitializeNewSession creates a new session using provided players, board and game.
 func InitializeNewSession(players *players.Players, board *board.Board, game *gameplay.Game) *Session {
 	return &Session{
 		Players: players,

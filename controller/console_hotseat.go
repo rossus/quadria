@@ -16,17 +16,19 @@ import (
 	"github.com/buger/goterm"
 )
 
+// ConsoleHotseatController provides a simple text-based hotseat interface.
 type ConsoleHotseatController struct {
 	session *session.Session
 }
 
+// InitializeConsoleHotseatController constructs a console controller for the provided session.
 func InitializeConsoleHotseatController(session *session.Session) *ConsoleHotseatController {
 	return &ConsoleHotseatController{
 		session: session,
 	}
 }
 
-// CHRun runs the console hotseat game loop.
+// Run executes the console hotseat game loop.
 func (chc *ConsoleHotseatController) Run() {
 	fmt.Println("Welcome to the Quadria console hotseat game! There are two players here: blue (1) and red (2).")
 	fmt.Println("It's turn 1 now. It is blue's turn.")

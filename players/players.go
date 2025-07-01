@@ -5,6 +5,7 @@ import (
 	"github.com/rossus/quadria/common/types"
 )
 
+// Players stores all participants and tracks whose turn is active.
 type Players struct {
 	// players holds all players taking part in the game. The first element is a blank player used for unowned tiles.
 	players []types.Player
@@ -12,6 +13,7 @@ type Players struct {
 	activePlayer *types.Player
 }
 
+// InitPlayers creates the players list with a blank placeholder.
 func InitPlayers() *Players {
 	return &Players{
 		players: []types.Player{{Name: "", Color: "gray"}},
