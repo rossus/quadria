@@ -41,6 +41,7 @@ func (b *Board) GetBoard() Board {
 	return *b
 }
 
+// GetTiles exposes the current board tile matrix.
 func (b *Board) GetTiles() [][]types.Tile {
 	return b.tiles
 }
