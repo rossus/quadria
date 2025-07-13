@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/kortschak/ct"
+	"github.com/fatih/color"
 	"github.com/rossus/quadria/session"
 
 	"github.com/buger/goterm"
@@ -81,8 +81,7 @@ func (chc *ConsoleHotseatController) Run() {
 
 // drawBoard prints the current game board to the terminal using color.
 func (chc *ConsoleHotseatController) drawBoard() {
-	var CPBg, CPTxt = getColor(chc.session.Players.GetActivePlayer().Color)
-	var currentPlayer = (ct.Bg(CPBg) | CPTxt).Paint
+	var currentPlayer = getColor(chc.session.Players.GetActivePlayer().Color).SprintFunc()
 	var currentBoardTiles = chc.session.Board.GetTiles()
 
 	fmt.Println(currentPlayer("Turn ", chc.session.Game.GetTurnNum()))
@@ -91,8 +90,7 @@ func (chc *ConsoleHotseatController) drawBoard() {
 	for i := 0; i < len(currentBoardTiles); i++ {
 		fmt.Println()
 		for j := 0; j < len(currentBoardTiles[i]); j++ {
-			var TOBg, TOTxt = getColor(currentBoardTiles[i][j].Player.Color)
-			var tileOwner = (ct.Bg(TOBg) | TOTxt).Paint
+			var tileOwner = getColor(currentBoardTiles[i][j].Player.Color).SprintFunc()
 			fmt.Print(tileOwner(currentBoardTiles[i][j].Value))
 		}
 	}
@@ -119,16 +117,16 @@ func clear() {
 	}
 }
 
-// getColor converts a player color name into ct color attributes.
-func getColor(color string) (ct.Color, ct.Mode) {
-	switch color {
+// getColor converts a player color name into color.
+func getColor(colour string) *color.Color {
+	switch colour {
 	case "gray":
-		return ct.White, ct.Bold
+		return color.New(color.FgWhite, color.Bold)
 	case "blue":
-		return ct.Blue, ct.Fg(ct.BoldYellow)
+		return color.New(color.FgYellow, color.Bold, color.BgBlue)
 	case "red":
-		return ct.Red, ct.Bold
+		return color.New(color.FgYellow, color.Bold, color.BgRed)
 	default:
-		return ct.Green, ct.Bold
+		return color.New(color.FgGreen, color.Bold)
 	}
 }
